@@ -1,0 +1,24 @@
+body {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial;
+}
+
+.hero {
+    height: 80vh;
+    background: url("../images/fnd.jpg") center/cover no-repeat;
+}
+
+.card-game {
+    background: #111;
+    border: 1px solid #222;
+    transition: 0.2s;
+}
+
+.card-game:hover {
+    transform: scale(1.03);
+    border-color: #0d6efd;
+}
+
+.card-game img {
+    height: 200px;
+    object-fit: cover;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+</head>
+<body>
+
+    <form id="loginForm">
+        <h2>Iniciar sesion</h2>
+        <input type="email" id="email" placeholder="Correo" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <input type="submit" class="btn" value="Enviar">
+        <a href="index.html" class="btn2">Regresar</a>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            
+            const usuario = usuarios.find(user => 
+                user.email === email && user.password === password
+            );
+            
+            if (usuario) {
+                localStorage.setItem('usuarioActual', JSON.stringify({
+                    id: usuario.id,
+                    nombre: usuario.nombre,
+                    email: usuario.email,
+                    loggedIn: true
+                }));
+                
+                alert(` ¡Bienvenido ${usuario.nombre}!`);
+                window.location.href = 'index.html';
+            } else {
+                alert(' Correo o contraseña incorrectos');
+            }
+        });
+
+        window.addEventListener('load', function() {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            if (usuarios.length === 0) {
+                const usuarioPrueba = {
+                    id: 1,
+                    nombre: "Usuario",
+                    apellido: "Demo",
+                    email: "demo@test.com",
+                    password: "123456",
+                    fechaRegistro: new Date().toLocaleDateString()
+                };
+                usuarios.push(usuarioPrueba);
+                localStorage.setItem('usuarios', JSON.stringify(usuarios));
+                console.log(' Usuario demo creado: demo@test.com / 123456');
+            }
+        });
+    </script>
+    
+</body>
+</html>

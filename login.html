@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+</head>
+<body>
+
+    <form id="registerForm">
+        <h2>Registro</h2>
+        <input type="text" id="nombre" placeholder="Nombre" required>
+        <input type="text" id="apellido" placeholder="Apellido" required>
+        <input type="email" id="email" placeholder="Correo" required>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
+        <input type="submit" class="btn" value="Enviar">
+        <a href="index.html" class="btn2">Regresar</a>
+        <p>Ya tienes cuenta?</p>
+        <a href="sesion.html" class="inciar-secion">Iniciar sesion</a>
+    </form>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+            
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            
+            const usuarioExistente = usuarios.find(user => user.email === email);
+            if (usuarioExistente) {
+                alert('Este correo ya está registrado');
+                return;
+            }
+            
+            const nuevoUsuario = {
+                id: Date.now(), 
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                password: password,
+                fechaRegistro: new Date().toLocaleDateString()
+            };
+            
+            usuarios.push(nuevoUsuario);
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            
+            alert('¡Registro exitoso! Ahora puedes iniciar sesión');
+            window.location.href = 'sesion.html';
+        });
+    </script>
+    
+</body>
+</html>
